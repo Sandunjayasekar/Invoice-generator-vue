@@ -4,10 +4,6 @@
     <div v-if="!mobile" class="app flex flex-column">
       <Navigation />
       <div class="app-content flex flex-column">
-        <Modal v-if="modalActive" />
-        <transition name="invoice">
-          <InvoiceModal v-if="invoiceModal" />
-        </transition>
         <router-view />
       </div>
     </div>
@@ -67,7 +63,7 @@ created() {
   background-color: #141625;
   min-height: 100vh;
   @media (min-width: 900px) {
-    flex-direction: column !important;
+    flex-direction: row !important;
   }
 
   .app-content {
