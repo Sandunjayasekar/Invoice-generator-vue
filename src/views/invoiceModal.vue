@@ -61,7 +61,28 @@
             <!-- Invoice work details -->
             <div class="invoice-work flex flex-column">
                 <div class="payment flex">
-                    
+                    <div class="input flex flex-column">
+                        <label for="invoiceDate">Invoice Date</label>
+                        <input required type="text" id="invoiceDate" v-model="invoiceDate">
+                    </div>
+                    <div class="input flex flex-column">
+                        <label for="paymentDueDate">Payment due date</label>
+                        <input required type="text" id="paymentDueDate" v-model="paymentDueDate">
+                    </div>
+                </div>
+
+                <div class="input flex flex-column">
+                    <div class="input flex flex-column">
+                        <label for="paymentTerms">Payment Terms</label>
+                        <select required type="text" id="paymentTerms" v-model="paymentTerms">
+                            <option value="30">Next 30 days</option>
+                            <option value="60">Next 60 days</option>
+                        </select>
+                    </div>
+                    <div class="input flex flex-column">
+                        <label for="productDescription">Product Description</label>
+                        <input required type="text" id="productDescription" v-model="productDescription">
+                    </div>
                 </div>
             </div>
         </form>
