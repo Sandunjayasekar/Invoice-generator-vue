@@ -21,6 +21,7 @@
           <div class="inner-button flex">
             <img src="../assets/icon-plus.svg" alt="">
           </div>
+          New Invoice
         </div>
       </div>
     </div>
@@ -28,6 +29,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
   name: "Home",
   data() {
@@ -38,11 +41,16 @@ export default {
   components: {},
 
   methods: {
-    newInvoice(){},
 
     toggleFilterMenu(){
       this.filterMenu = !this.filterMenu
-    }
+    },
+    
+    ...mapMutations(["TOGGLE_INVOICE"]),
+    newInvoice(){
+      this.TOGGLE_INVOICE();
+    },
+
   }
 };
 </script>
