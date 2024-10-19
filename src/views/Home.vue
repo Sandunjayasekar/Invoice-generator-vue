@@ -36,6 +36,14 @@ export default {
     }
   },
   components: {},
+
+  methods: {
+    newInvoice(){},
+
+    toggleFilterMenu(){
+      this.filterMenu = !this.filterMenu
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
