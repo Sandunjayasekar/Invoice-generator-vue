@@ -125,6 +125,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 
 export default {
     name: "invoiceModal",
@@ -156,11 +157,15 @@ export default {
     };
   },
 
-  components: {
+  components: {},
 
+  methods: {
+    ...mapMutations(["TOGGLE_INVOICE"]),
 
-  },
-
+    closeInvoice(){
+        this.TOGGLE_INVOICE();
+    }
+  }
 
 }
 </script>

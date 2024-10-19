@@ -4,7 +4,9 @@
     <div v-if="!mobile" class="app flex flex-column">
       <Navigation />
       <div class="app-content flex flex-column">
-        <invoiceModal/>
+        <transition name="invoice">
+          <invoiceModal v-if="invoiceModal"/>
+        </transition>
         <router-view />
       </div>
     </div>
@@ -18,9 +20,9 @@
 
 
 <script>
-
+import { mapState } from "vuex";
 import Navigation from "./components/Navigation.vue";
-import invoiceModal from "../src/views/invoiceModal.vue"
+import invoiceModal from "../src/views/invoiceModal.vue";
 
 export default {
   data() {
@@ -48,6 +50,10 @@ created() {
       this.mobile = false;
     },
   },
+
+  computed: {
+    ...mapState(["invoiceModal"]),
+  }
 };
 
 </script>
