@@ -83,8 +83,43 @@
                         <label for="productDescription">Product Description</label>
                         <input required type="text" id="productDescription" v-model="productDescription">
                     </div>
+                    <div class="work-items">
+                        <h3>Item List</h3>
+                        <table class="item-list">
+                            <tr class="table-heading">
+                                <th class="item-name">Item Name</th>
+                                <th class="qty">Qty</th>
+                                <th class="price">Price</th>
+                                <th class="total">Total</th>
+                            </tr>
+                            <tr class="table-items flex" v-for="(item, index) in invoiceItemList" :key="index">
+                                <td class="item-name"><input type="text" v-model="item.itemName"></td>
+                                <td class="qty"><input type="text" v-model="item.qty"></td>
+                                <td class="price"><input type="text" v-model="item.price"></td>
+                                <td class="total flex">${{ (item.total = item.qty * item.price) }}</td>
+                                <img @click="deleteInvoiceItem(item.id)" src="../assets/icon-delete.svg" alt="">
+                            </tr>
+                        </table>
+
+                        <div class="flex button">
+                            <img src="../assets/icon-plus.svg" alt="">
+                            Add New Item
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <!-- Save/Exit -->
+            <div class="save flex">
+                <div class="left">
+                    <button @click="closeInvoice" class="red">Cancel</button>
+                </div>
+                <div class="right flex">
+                    <button @click="saveDraft" class="dark-purple">Save draft</button>
+                    <button @click="publishInvoice" class="purple">Create Invoice</button>
+                </div>
+            </div>
+
         </form>
     </div>
 </template>
@@ -131,193 +166,166 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.invoice-view {
-  .nav-link {
-    margin-bottom: 32px;
-    align-items: center;
+.invoice-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  @media (min-width: 900px) {
+    left: 90px;
+  }
+
+  .invoice-content {
+    position: relative;
+    padding: 56px;
+    max-width: 700px;
+    width: 100%;
+    background-color: #141625;
     color: #fff;
-    font-size: 12px;
-    img {
-      margin-right: 16px;
-      width: 7px;
-      height: 10px;
+    box-shadow: 10px 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+    h1 {
+      margin-bottom: 48px;
+      color: #fff;
     }
-  }
 
-  .header,
-  .invoice-details {
-    background-color: #1e2139;
-    border-radius: 20px;
-  }
+    h3 {
+      margin-bottom: 16px;
+      font-size: 18px;
+      color: #777f98;
+    }
 
-  .header {
-    align-items: center;
-    padding: 24px 32px;
-    font-size: 12px;
+    h4 {
+      color: #7c5dfa;
+      font-size: 12px;
+      margin-bottom: 24px;
+    }
 
-    .left {
-      align-items: center;
+    // Bill To / Bill From
+    .bill-to,
+    .bill-from {
+      margin-bottom: 48px;
 
-      span {
-        color: #dfe3fa;
-        margin-right: 16px;
+      .location-details {
+        gap: 16px;
+        div {
+          flex: 1;
+        }
       }
     }
 
-    .right {
-      flex: 1;
-      justify-content: flex-end;
+    // Invoice Work
 
-      button {
-        color: #fff;
-      }
-    }
-  }
-
-  .invoice-details {
-    padding: 48px;
-    margin-top: 24px;
-
-    .top {
-      div {
-        color: #dfe3fa;
-        flex: 1;
+    .invoice-work {
+      .payment {
+        gap: 24px;
+        div {
+          flex: 1;
+        }
       }
 
-      .left {
-        font-size: 12px;
-        p:first-child {
-          font-size: 24px;
-          text-transform: uppercase;
+      .work-items {
+        .item-list {
+          width: 100%;
+
+          // Item Table Styling
+          .table-heading,
+          .table-items {
+            gap: 16px;
+            font-size: 12px;
+
+            .item-name {
+              flex-basis: 50%;
+            }
+
+            .qty {
+              flex-basis: 10%;
+            }
+
+            .price {
+              flex-basis: 20%;
+            }
+
+            .total {
+              flex-basis: 20%;
+              align-self: center;
+            }
+          }
+
+          .table-heading {
+            margin-bottom: 16px;
+
+            th {
+              text-align: left;
+            }
+          }
+
+          .table-items {
+            position: relative;
+            margin-bottom: 24px;
+
+            img {
+              position: absolute;
+              top: 15px;
+              right: 0;
+              width: 12px;
+              height: 16px;
+            }
+          }
+        }
+
+        .button {
           color: #fff;
-          margin-bottom: 8px;
-        }
+          background-color: #252945;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
 
-        p:nth-child(2) {
-          font-size: 16px;
+          img {
+            margin-right: 4px;
+          }
         }
+      }
+    }
 
-        span {
-          color: #888eb0;
-        }
+    .save {
+      margin-top: 60px;
+
+      div {
+        flex: 1;
       }
 
       .right {
-        font-size: 12px;
-        align-items: flex-end;
+        justify-content: flex-end;
       }
     }
+  }
 
-    .middle {
-      margin-top: 50px;
-      color: #dfe3fa;
-      gap: 16px;
+  .input {
+    margin-bottom: 24px;
+  }
 
-      h4 {
-        font-size: 12px;
-        font-weight: 400;
-        margin-bottom: 12px;
-      }
+  label {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
 
-      p {
-        font-size: 16px;
-      }
+  input,
+  select {
+    width: 100%;
+    background-color: #1e2139;
+    color: #fff;
+    border-radius: 4px;
+    padding: 12px 4px;
+    border: none;
 
-      .bill,
-      .payment {
-        flex: 1;
-      }
-
-      .payment {
-        h4:nth-child(3) {
-          margin-top: 32px;
-        }
-
-        p {
-          font-weight: 600;
-        }
-      }
-
-      .bill {
-        p:nth-child(2) {
-          font-size: 16px;
-        }
-        p:nth-child(3) {
-          margin-top: auto;
-        }
-
-        p {
-          font-size: 12px;
-        }
-      }
-
-      .send-to {
-        flex: 2;
-      }
-    }
-
-    .bottom {
-      margin-top: 50px;
-
-      .billing-items {
-        padding: 32px;
-        border-radius: 20px 20px 0 0;
-        background-color: #252945;
-
-        .heading {
-          color: #dfe3fa;
-          font-size: 12px;
-          margin-bottom: 32px;
-
-          p:first-child {
-            flex: 3;
-            text-align: left;
-          }
-
-          p {
-            flex: 1;
-            text-align: right;
-          }
-        }
-
-        .item {
-          margin-bottom: 32px;
-          font-size: 13px;
-          color: #fff;
-
-          &:last-child {
-            margin-bottom: 0;
-          }
-
-          p:first-child {
-            flex: 3;
-            text-align: left;
-          }
-
-          p {
-            flex: 1;
-            text-align: right;
-          }
-        }
-      }
-
-      .total {
-        color: #fff;
-        padding: 32px;
-        background-color: rgba(12, 14, 22, 0.7);
-        align-items: center;
-        border-radius: 0 0 20px 20px;
-
-        p {
-          flex: 1;
-          font-size: 12px;
-        }
-
-        p:nth-child(2) {
-          font-size: 28px;
-          text-align: right;
-        }
-      }
+    &:focus {
+      outline: none;
     }
   }
 }
